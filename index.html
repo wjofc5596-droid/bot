@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Bot Manager</title>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+    import firebaseConfig from "./firebase-config.js";
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const form = document.getElementById("loginForm");
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const email = document.getElementById("username").value;
+        const senha = document.getElementById("password").value;
+
+        signInWithEmailAndPassword(auth, email, senha)
+          .then((userCredential) => {
+            const user = userCredential.user;
+            // Redireciona para painel
+            window.location.href = "painel.html";
+          })
+          .catch(() => {
+            document.getElementById("errorMsg").textContent = "Usuário ou senha inválidos!";
+          });
+      });
+    });
+  </script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #1f2937, #10b981);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .login-container {
+      background: #fff;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+      width: 350px;
+      text-align: center;
+    }
+    .login-container h2 { margin-bottom: 20px; color: #111827; }
+    .login-container input {
+      width: 100%; padding: 12px; margin: 10px 0;
+      border-radius: 8px; border: 1px solid #ccc;
+    }
+    .login-container button {
+      width: 100%; padding: 12px;
+      background: #10b981; border: none;
+      border-radius: 8px; color: #fff;
+      cursor: pointer; transition: background 0.3s;
+    }
+    .login-container button:hover { background: #059669; }
+    .error { color: red; font-size: 0.9em; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h2>Login Bot Manager</h2>
+    <form id="loginForm">
+      <input type="email" id="username" placeholder="Email" required>
+      <input type="password" id="password" placeholder="Senha" required>
+      <button type="submit">Entrar</button>
+      <div class="error" id="errorMsg"></div>
+    </form>
+  </div>
+</body>
+</html>
