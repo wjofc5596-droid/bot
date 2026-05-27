@@ -2,30 +2,61 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Login - Bot Manager</title>
+  <title>Login/Cadastro - Bot Manager</title>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
-    import firebaseConfig from "./firebase-config.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } 
+      from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBgIROe4i7jjXTHBubIFEjNvxuaTfzGuao",
+      authDomain: "painel-log.firebaseapp.com",
+      projectId: "painel-log",
+      storageBucket: "painel-log.firebasestorage.app",
+      messagingSenderId: "460411586537",
+      appId: "1:460411586537:web:395a73d7cd5e30ead8ed78",
+      measurementId: "G-F9XLSLN5V2"
+    };
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
     document.addEventListener("DOMContentLoaded", () => {
-      const form = document.getElementById("loginForm");
-      form.addEventListener("submit", (e) => {
+      const loginForm = document.getElementById("loginForm");
+      const signupForm = document.getElementById("signupForm");
+
+      // Login
+      loginForm.addEventListener("submit", (e) => {
         e.preventDefault();
-        const email = document.getElementById("username").value;
-        const senha = document.getElementById("password").value;
+        const email = document.getElementById("loginEmail").value;
+        const senha = document.getElementById("loginPassword").value;
 
         signInWithEmailAndPassword(auth, email, senha)
-          .then((userCredential) => {
-            const user = userCredential.user;
-            // Redireciona para painel
-            window.location.href = "painel.html";
+          .then(() => {
+            // Se for o proprietário, redireciona para painel com acesso total
+            if (email === "admin@painel.com") {
+              window.location.href = "painel.html?role=owner";
+            } else {
+              window.location.href = "painel.html?role=member";
+            }
           })
           .catch(() => {
-            document.getElementById("errorMsg").textContent = "Usuário ou senha inválidos!";
+            document.getElementById("loginError").textContent = "Usuário ou senha inválidos!";
+          });
+      });
+
+      // Cadastro
+      signupForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const email = document.getElementById("signupEmail").value;
+        const senha = document.getElementById("signupPassword").value;
+
+        createUserWithEmailAndPassword(auth, email, senha)
+          .then(() => {
+            alert("Cadastro realizado com sucesso! Agora faça login.");
+          })
+          .catch((error) => {
+            document.getElementById("signupError").textContent = "Erro: " + error.message;
           });
       });
     });
@@ -40,38 +71,56 @@
       justify-content: center;
       align-items: center;
     }
-    .login-container {
+    .container {
+      display: flex;
+      gap: 30px;
+    }
+    .box {
       background: #fff;
-      padding: 40px;
+      padding: 30px;
       border-radius: 12px;
       box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-      width: 350px;
+      width: 300px;
       text-align: center;
     }
-    .login-container h2 { margin-bottom: 20px; color: #111827; }
-    .login-container input {
-      width: 100%; padding: 12px; margin: 10px 0;
+    .box h2 { margin-bottom: 20px; color: #111827; }
+    .box input {
+      width: 100%; padding: 10px; margin: 8px 0;
       border-radius: 8px; border: 1px solid #ccc;
     }
-    .login-container button {
-      width: 100%; padding: 12px;
+    .box button {
+      width: 100%; padding: 10px;
       background: #10b981; border: none;
       border-radius: 8px; color: #fff;
       cursor: pointer; transition: background 0.3s;
     }
-    .login-container button:hover { background: #059669; }
+    .box button:hover { background: #059669; }
     .error { color: red; font-size: 0.9em; margin-top: 10px; }
   </style>
 </head>
 <body>
-  <div class="login-container">
-    <h2>Login Bot Manager</h2>
-    <form id="loginForm">
-      <input type="email" id="username" placeholder="Email" required>
-      <input type="password" id="password" placeholder="Senha" required>
-      <button type="submit">Entrar</button>
-      <div class="error" id="errorMsg"></div>
-    </form>
+  <div class="container">
+    <!-- Login -->
+    <div class="box">
+      <h2>Login</h2>
+      <form id="loginForm">
+        <input type="email" id="loginEmail" placeholder="Email" required>
+        <input type="password" id="loginPassword" placeholder="Senha" required>
+        <button type="submit">Entrar</button>
+        <div class="error" id="loginError"></div>
+      </form>
+    </div>
+
+    <!-- Cadastro -->
+    <div class="box">
+      <h2>Cadastrar</h2>
+      <form id="signupForm">
+        <input type="email" id="signupEmail" placeholder="Email" required>
+        <input type="password" id="signupPassword" placeholder="Senha (mínimo 6 caracteres)" required>
+        <button type="submit">Registrar</button>
+        <div class="error" id="signupError"></div>
+      </form>
+    </div>
   </div>
 </body>
 </html>
