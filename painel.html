@@ -95,6 +95,12 @@
       75% { transform: translateX(-5px); }
       100% { transform: translateX(0); }
     }
+    .card.tiktok-card {
+  width: 180px;   /* largura menor */
+  height: 180px;   /* altura ajusta automaticamente */
+  margin: 5px;   /* espaço ao redor */
+}
+
   </style>
 </head>
 <body>
@@ -175,15 +181,17 @@
 </div>
 
 <!-- TikTok Online -->
-<div class="card" style="margin-top:20px;">
+<div class="card tiktok-card">
   <h3>TikTok</h3>
   <iframe src="https://www.tiktok.com/embed/7529192746251341112"
-          width="125" height="280"
-          frameborde="0"
+          width="250" height="100"
+          frameborder="0"
           allow="autoplay; encrypted-media"
-          allowfullscreen>r
+          allowfullscreen>
   </iframe>
 </div>
+
+
 
 
 
