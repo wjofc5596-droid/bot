@@ -6,261 +6,181 @@
   <title>Painel de Gerenciamento de Bots</title>
   <style>
     body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f4f6f9;
-      display: flex;
-      transition: background 0.3s, color 0.3s;
-    }
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: url('https://i.imgur.com/FHAzOQ8.png') no-repeat center center fixed;
+  background-size: cover; /* cobre toda a tela */
+  display: flex;
+  transition: background 0.3s, color 0.3s;
+}
 
-    /* Tema escuro */
-    body.dark {
-      background-color: #111827;
-      color: #f9fafb;
     }
+    body.dark { background-color: #111827; color: #f9fafb; }
 
-    /* Menu lateral */
     .sidebar {
-      width: 250px;
-      background: #1f2937;
-      color: #fff;
-      height: 100vh;
-      position: fixed;
-      top: 0;
-      left: 0;
-      display: flex;
-      flex-direction: column;
-      padding: 20px;
-    }
+  width: 250px;
+  background: rgba(31, 41, 55, 0.7); /* cor escura com transparência */
+  color: #fff;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  backdrop-filter: blur(6px); /* efeito de desfoque no fundo */
+}
 
-    .sidebar h2 {
-      text-align: center;
-      margin-bottom: 30px;
-      font-size: 1.4em;
-      color: #10b981;
-    }
+    .sidebar h2 { text-align: center; margin-bottom: 30px; font-size: 1.4em; color: #10b981; }
+    .sidebar a { color: #fff; text-decoration: none; padding: 12px; margin: 5px 0; border-radius: 6px; transition: background 0.3s; cursor: pointer; display: block; }
+    .sidebar a:hover { background: #374151; }
+    .premium { background: #10b981; color: #fff; font-weight: bold; }
 
-    .sidebar a {
-      color: #fff;
-      text-decoration: none;
-      padding: 12px;
-      margin: 5px 0;
-      border-radius: 6px;
-      transition: background 0.3s;
-      cursor: pointer;
-    }
+    .dropdown { display: none; flex-direction: column; margin-left: 15px; }
+    .dropdown a { padding: 8px; font-size: 0.9em; }
 
-    .sidebar a:hover {
-      background: #374151;
-    }
+    .main { margin-left: 250px; flex: 1; padding: 20px; }
+    header { background: #111827; color: #fff; padding: 15px; border-radius: 8px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+    header h1 { margin: 0; font-size: 1.5em; }
 
-    .premium {
-      background: #10b981;
-      color: #fff;
-      font-weight: bold;
-    }
+    .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+    .card { background: #fff; border-radius: 10px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s; cursor: pointer; text-align: center; }
+    body.dark .card { background: #1f2937; color: #f9fafb; }
+    .card:hover { transform: scale(1.05); }
+    .card h3 { margin-top: 0; color: #111827; }
+    body.dark .card h3 { color: #10b981; }
+    .card img { max-width: 100%; border-radius: 8px; margin-top: 10px; }
 
-    .submenu {
-      margin-left: 15px;
-      font-size: 0.9em;
-    }
+    .logs { display: none; background: #fff; padding: 20px; border-radius: 8px; margin-top: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+    body.dark .logs { background: #1f2937; color: #f9fafb; }
+    .logs h3 { margin-top: 0; color: #111827; }
+    body.dark .logs h3 { color: #10b981; }
+    .log-entry { border-bottom: 1px solid #ddd; padding: 8px 0; }
 
-    .submenu select, .submenu button {
-      width: 100%;
-      margin: 5px 0;
-      padding: 8px;
-      border-radius: 6px;
-      border: none;
-      cursor: pointer;
-    }
+     iframe { width: 100%; border-radius: 8px; border: none; margin-top: 10px; }
 
-    /* Conteúdo principal */
-    .main {
-      margin-left: 250px;
-      flex: 1;
-      padding: 20px;
+    /* efeito de tremer para bloqueado */
+    .blocked {
+      animation: shake 0.3s;
     }
-
-    header {
-      background: #111827;
-      color: #fff;
-      padding: 15px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 1.5em;
-    }
-
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 20px;
-    }
-
-    .card {
-      background: #fff;
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      transition: transform 0.2s;
-      cursor: pointer;
-      text-align: center;
-    }
-
-    body.dark .card {
-      background: #1f2937;
-      color: #f9fafb;
-    }
-
-    .card:hover {
-      transform: scale(1.05);
-    }
-
-    .card h3 {
-      margin-top: 0;
-      color: #111827;
-    }
-
-    body.dark .card h3 {
-      color: #10b981;
-    }
-
-    .card img {
-      max-width: 100%;
-      border-radius: 8px;
-      margin-top: 10px;
-    }
-
-    /* Logs */
-    .logs {
-      display: none; /* escondido por padrão */
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      margin-top: 20px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
-
-    body.dark .logs {
-      background: #1f2937;
-      color: #f9fafb;
-    }
-
-    .logs h3 {
-      margin-top: 0;
-      color: #111827;
-    }
-
-    body.dark .logs h3 {
-      color: #10b981;
-    }
-
-    .log-entry {
-      border-bottom: 1px solid #ddd;
-      padding: 8px 0;
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
+      100% { transform: translateX(0); }
     }
   </style>
 </head>
 <body>
-  <!-- Menu lateral -->
   <div class="sidebar">
     <h2>Bot Manager</h2>
-    <a href="#">Dashboard</a>
-    <a href="#">Configurações</a>
-    <div class="submenu">
-      <!-- Idioma -->
-      <label for="idioma">Idioma:</label>
-      <select id="idioma">
-        <option value="pt">Português</option>
-        <option value="en">English</option>
-        <option value="es">Español</option>
-      </select>
 
-      <!-- Tema -->
-      <button onclick="toggleTheme()">Alternar Tema Escuro</button>
+   <!-- Cards -->
+<a href="#" onclick="toggleDropdown('cardsDropdown')">Cards</a>
+<div class="dropdown" id="cardsDropdown">
+  <a href="https://gerenciadorbot.squareweb.app" target="_blank">🔓 POLICIA MILITAR VICE RP</a>
+  <a href="https://www.example.com/relatorios" target="_blank">🔑 Relatórios</a>
+  <a href="https://www.example.com/gerenciamento" target="_blank">🔑 1° BPM PMEJR . RJ</a>
+  <a href="https://www.example.com/premium" target="_blank">🔑 Premium Features</a>
+</div>
 
-      <!-- Logout -->
-      <button onclick="logout()">Deslogar</button>
+
+    <!-- Dashboard -->
+    <a href="#" onclick="toggleDropdown('dashboardDropdown')">Dashboard</a>
+    <div class="dropdown" id="dashboardDropdown">
+      <a href="#">🔑 REGISTRO</a>
+      <a href="#">🔑 CORREGEDORIA</a>
+      <a href="#">🔑 HIERARQUIA</a>
+      <a href="#">🔑 BLACKLIST</a>
+      <a href="#">🔑 CARGO</a>
+      <a href="#">🔑 ATESTADO</a>
+      <a href="#">🔑 ADVERTÊNCIA</a>
+      <a href="#">🔑 EXONERAÇÃO</a>
+      <a href="#">🔑 TICKET</a>
     </div>
+
+    <!-- Configurações -->
+    <a href="#" onclick="toggleDropdown('configDropdown')">Configurações</a>
+    <div class="dropdown" id="configDropdown">
+      <a href="#">🔧 Idioma</a>
+      <a href="#" onclick="toggleTheme()">🔧 Alternar Tema Escuro</a>
+      <a href="#" onclick="logout()">🔧 Deslogar</a>
+    </div>
+
+    <!-- Suporte -->
+    <a href="#" onclick="toggleDropdown('suporteDropdown')">Suporte</a>
+    <div class="dropdown" id="suporteDropdown">
+      <a href="#">📞 https://discord.gg/V6Kb47A4x</a>
+      <a href="#">📧 Email</a>
+    </div>
+
+    <!-- Gerenciamento bloqueado -->
+    <a href="#" onclick="bloquearGerenciamento()">Gerenciamento</a>
+    <div class="dropdown" id="gerenciamentoDropdown">
+      <a href="#">🔓 POLICIA MILITAR VICE RP</a>
+      <a href="#">🔑 Relatórios</a>
+      <a href="#">🔑 1° BPM PMEJR . RJ</a>
+      <a href="#">🔑 Premium Features</a>
+    </div>
+
     <a href="#" onclick="mostrarLogs()">Logs</a>
     <a href="#">Usuários</a>
     <a href="#" class="premium">Premium</a>
-    <a href="#">Suporte</a>
   </div>
 
-  <!-- Conteúdo principal -->
   <div class="main">
     <header>
       <h1>Painel de Controle</h1>
       <span id="userRole">Bem-vindo, Admin</span>
     </header>
 
-    <div class="cards">
-      <!-- POLICIA MILITAR VICE RP -->
-      <div class="card" onclick="window.open('https://gerenciadorbot.squareweb.app', '_blank')">
-        <h3>POLICIA MILITAR VICE RP</h3>
-        <img src="https://i.imgur.com/qogy4OS.png" alt="Status Bots">
-      </div>
-
-      <!-- Relatórios -->
-      <div class="card" onclick="window.open('https://www.example.com/relatorios', '_blank')">
-        <h3>Relatórios</h3>
-        <img src="https://i.imgur.com/gEiC8Vc.png" alt="Relatórios">
-      </div>
-
-      <!-- Gerenciamento -->
-      <div class="card" onclick="window.open('https://www.example.com/gerenciamento', '_blank')">
-        <h3>1° BPM PMEJR . RJ</h3>
-        <img src="https://i.imgur.com/gEiC8Vc.png" alt="Gerenciamento">
-      </div>
-
-      <!-- Premium -->
-      <div class="card" onclick="window.open('https://www.example.com/premium', '_blank')">
-        <h3>Premium Features</h3>
-        <img src="https://i.imgur.com/gEiC8Vc.png" alt="Premium">
-      </div>
-    </div>
-
-    <!-- Área de Logs -->
-    <div class="logs" id="logsArea">
-      <h3>Movimentação na Página</h3>
-      <div class="log-entry">[12:01] Usuário X acessou Dashboard</div>
-      <div class="log-entry">[12:05] Usuário Y alterou configurações</div>
-      <div class="log-entry">[12:10] Admin visualizou relatórios</div>
-    </div>
+    <!-- Menu Inicial -->
+<h2>Menu Inicial</h2>
+<div class="inicial-grid">
+  <div class="card">
+    <h3>YouTube</h3>
+    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
   </div>
+  <div class="card">
+    <h3>Spotify</h3>
+    <!-- Exemplo de embed Spotify -->
+    <iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M" allow="encrypted-media"></iframe>
+  </div>
+</div>
+
+<!-- Notícias Online abaixo -->
+<div class="card" style="margin-top:20px;">
+  <h3>Notícias Online</h3>
+  <iframe src="https://www.bbc.com/news"></iframe>
+</div>
+
+
 
   <script>
-    function toggleTheme() {
-      document.body.classList.toggle('dark');
-    }
-
-    function logout() {
-      alert("Você foi deslogado!");
-      window.location.href = "login.html";
-    }
-
-    document.getElementById("idioma").addEventListener("change", function() {
-      const idioma = this.value;
-      alert("Idioma alterado para: " + idioma);
-      // Aqui você pode implementar lógica de tradução dinâmica
-    });
-
+    function toggleTheme() { document.body.classList.toggle('dark'); }
+    function logout() { alert("Você foi deslogado!"); window.location.href = "login.html"; }
     function mostrarLogs() {
-      // Simulação de verificação de permissão
       const userRole = document.getElementById("userRole").textContent;
-      if (userRole.includes("Admin")) {
-        document.getElementById("logsArea").style.display = "block";
-      } else {
-        alert("Acesso negado: apenas o proprietário pode ver os logs.");
-      }
+      if (userRole.includes("Admin")) { document.getElementById("logsArea").style.display = "block"; }
+      else { alert("Acesso negado: apenas o proprietário pode ver os logs."); }
     }
+    function toggleDropdown(id) {
+      const dropdown = document.getElementById(id);
+      dropdown.style.display = dropdown.style.display === "flex" ? "none" : "flex";
+    }
+    
+    // Função para bloquear o menu Gerenciamento e aplicar efeito de tremer
+    function bloquearGerenciamento() {
+      const dropdown = document.getElementById("gerenciamentoDropdown");
+      dropdown.classList.add("blocked");
+      setTimeout(() => {
+        dropdown.classList.remove("blocked");
+      }, 400); // remove o efeito após 0.4s
+    }
+  </script>
+</body>
+</html>
   </script>
 </body>
 </html>
