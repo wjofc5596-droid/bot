@@ -33,7 +33,6 @@
 
         signInWithEmailAndPassword(auth, email, senha)
           .then(() => {
-            // Se for o proprietário, redireciona para painel com acesso total
             if (email === "admin@painel.com") {
               window.location.href = "painel.html?role=owner";
             } else {
@@ -65,18 +64,31 @@
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #1f2937, #10b981);
+      background: url('https://i.imgur.com/Yd2W5Ny.png') no-repeat center center fixed;
+      background-size: cover;
       height: 100vh;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .header h1 {
+      font-size: 48px;
+      font-weight: bold;
+      color: #fff;
+      text-transform: uppercase;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
     }
     .container {
       display: flex;
       gap: 30px;
     }
     .box {
-      background: #fff;
+      background: rgba(255,255,255,0.9);
       padding: 30px;
       border-radius: 12px;
       box-shadow: 0 6px 12px rgba(0,0,0,0.2);
@@ -99,6 +111,11 @@
   </style>
 </head>
 <body>
+  <!-- Cabeçalho com título -->
+  <div class="header">
+    <h1>Faça seu Login</h1>
+  </div>
+
   <div class="container">
     <!-- Login -->
     <div class="box">
