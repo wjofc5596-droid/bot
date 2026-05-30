@@ -6,55 +6,29 @@
   <title>Painel de Gerenciamento de Bots</title>
   <style>
     body {
-  margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: url('https://i.imgur.com/FHAzOQ8.png') no-repeat center center fixed;
-  background-size: cover; /* cobre toda a tela */
-  display: flex;
-  transition: background 0.3s, color 0.3s;
-}
-
-.sidebar {
-  width: 250px;
-  background: rgba(31, 41, 55, 0.7); /* transparente */
-  color: #fff;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  backdrop-filter: blur(6px); /* efeito vidro fosco */
-}
-
-.inicial-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr; /* duas colunas lado a lado */
-  gap: 20px;
-}
-
-.inicial-grid iframe {
-  height: 150px; /* altura menor */
-}
-
-
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: url('https://i.imgur.com/FHAzOQ8.png') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      transition: background 0.3s, color 0.3s;
     }
+
     body.dark { background-color: #111827; color: #f9fafb; }
 
     .sidebar {
-  width: 250px;
-  background: rgba(31, 41, 55, 0.7); /* cor escura com transparência */
-  color: #fff;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  backdrop-filter: blur(6px); /* efeito de desfoque no fundo */
-}
+      width: 200px;
+      background: rgba(31, 41, 55, 0.7);
+      color: #fff;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      backdrop-filter: blur(6px);
+    }
 
     .sidebar h2 { text-align: center; margin-bottom: 30px; font-size: 1.4em; color: #10b981; }
     .sidebar a { color: #fff; text-decoration: none; padding: 12px; margin: 5px 0; border-radius: 6px; transition: background 0.3s; cursor: pointer; display: block; }
@@ -68,21 +42,78 @@
     header { background: #111827; color: #fff; padding: 15px; border-radius: 8px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
     header h1 { margin: 0; font-size: 1.5em; }
 
-    .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
-    .card { background: #fff; border-radius: 10px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s; cursor: pointer; text-align: center; }
+    /* GRID INICIAL */
+   .inicial-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+.card-title {
+  display: block;
+  margin: 0 auto 8px auto; /* centraliza e dá espaço abaixo */
+  max-width: 80px;         /* tamanho pequeno e padronizado */
+  height: auto;
+}
+
+.card {
+  flex: 1 1 300px;
+  max-width: 350px;
+  padding: 10px;
+  border: none;        /* remove borda */
+  background: none;    /* remove fundo */
+  box-shadow: none;    /* remove sombra */
+  text-align: center;  /* centraliza o título */
+}
+
+.card h3 {
+  margin-bottom: 0px;
+  font-size: 18px;
+  font-weight: bold;
+}
+    .card h3 {
+  font-size: 52px;
+  font-weight: bold;
+  color: #;
+  text-align: center;
+  letter-spacing: 1px; /* espaçamento entre letras */
+  text-transform: uppercase; /* deixa em maiúsculas */
+}
+
+
+    
+.card iframe {
+  width: 100%;
+  height: 250px;
+  border: none;
+}
+
+.discord-info {
+  margin-top: 10px;
+  font-size: 10px;
+}
+
+
+    }
+
     body.dark .card { background: #1f2937; color: #f9fafb; }
     .card:hover { transform: scale(1.05); }
-    .card h3 { margin-top: 0; color: #111827; }
+    .card h3 { margin-top: 0; color: #111827; font-size: 0.9em; }
     body.dark .card h3 { color: #10b981; }
-    .card img { max-width: 100%; border-radius: 8px; margin-top: 10px; }
 
+    .card iframe {
+      width: 100%;
+      height: 100%;
+      border-radius: 8px;
+      border: none;
+    }
+
+    /* Logs */
     .logs { display: none; background: #fff; padding: 20px; border-radius: 8px; margin-top: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
     body.dark .logs { background: #1f2937; color: #f9fafb; }
     .logs h3 { margin-top: 0; color: #111827; }
     body.dark .logs h3 { color: #10b981; }
     .log-entry { border-bottom: 1px solid #ddd; padding: 8px 0; }
-
-     iframe { width: 100%; border-radius: 8px; border: none; margin-top: 10px; }
 
     /* efeito de tremer para bloqueado */
     .blocked {
@@ -95,29 +126,20 @@
       75% { transform: translateX(-5px); }
       100% { transform: translateX(0); }
     }
-    .card.tiktok-card {
-  width: 400px;   /* largura menor */
-  height: 480px;   /* altura ajusta automaticamente */
-  margin: 50px;   /* espaço ao redor */
-}
-
   </style>
 </head>
 <body>
   <div class="sidebar">
     <h2>Bot Manager</h2>
+    <!-- Menus -->
+    <a href="#" onclick="toggleDropdown('cardsDropdown')">Cards</a>
+    <div class="dropdown" id="cardsDropdown">
+      <a href="https://gerenciadorbot.squareweb.app" target="_blank">🔓 POLICIA MILITAR VICE RP</a>
+      <a href="https://www.example.com/relatorios" target="_blank">🔑 Relatórios</a>
+      <a href="https://www.example.com/gerenciamento" target="_blank">🔑 1° BPM PMEJR . RJ</a>
+      <a href="https://www.example.com/premium" target="_blank">🔑 Premium Features</a>
+    </div>
 
-   <!-- Cards -->
-<a href="#" onclick="toggleDropdown('cardsDropdown')">Cards</a>
-<div class="dropdown" id="cardsDropdown">
-  <a href="https://gerenciadorbot.squareweb.app" target="_blank">🔓 POLICIA MILITAR VICE RP</a>
-  <a href="https://www.example.com/relatorios" target="_blank">🔑 Relatórios</a>
-  <a href="https://www.example.com/gerenciamento" target="_blank">🔑 1° BPM PMEJR . RJ</a>
-  <a href="https://www.example.com/premium" target="_blank">🔑 Premium Features</a>
-</div>
-
-
-    <!-- Dashboard -->
     <a href="#" onclick="toggleDropdown('dashboardDropdown')">Dashboard</a>
     <div class="dropdown" id="dashboardDropdown">
       <a href="#">🔑 REGISTRO</a>
@@ -131,7 +153,6 @@
       <a href="#">🔑 TICKET</a>
     </div>
 
-    <!-- Configurações -->
     <a href="#" onclick="toggleDropdown('configDropdown')">Configurações</a>
     <div class="dropdown" id="configDropdown">
       <a href="#">🔧 Idioma</a>
@@ -139,14 +160,12 @@
       <a href="#" onclick="logout()">🔧 Deslogar</a>
     </div>
 
-    <!-- Suporte -->
     <a href="#" onclick="toggleDropdown('suporteDropdown')">Suporte</a>
     <div class="dropdown" id="suporteDropdown">
       <a href="#">📞 https://discord.gg/V6Kb47A4x</a>
       <a href="#">📧 Email</a>
     </div>
 
-    <!-- Gerenciamento bloqueado -->
     <a href="#" onclick="bloquearGerenciamento()">Gerenciamento</a>
     <div class="dropdown" id="gerenciamentoDropdown">
       <a href="#">🔓 POLICIA MILITAR VICE RP</a>
@@ -166,59 +185,83 @@
       <span id="userRole">Bem-vindo, Admin</span>
     </header>
 
-    <!-- Menu Inicial -->
+  <!-- Menu Inicial -->
 <h2>Menu Inicial</h2>
 <div class="inicial-grid">
   <div class="card">
-    <h3>YouTube</h3>
-    <iframe src="https://www.youtube.com/embed/bMx80oIyIrY" 
-      allowfullscreen></iframe>
+    <img src="https://i.imgur.com/hiKhN88.jpeg" alt="YouTube" class="card-title">
+    <iframe src="https://www.youtube.com/embed/bMx80oIyIrY" allowfullscreen></iframe>
   </div>
   <div class="card">
-    <h3>Spotify</h3>
-    <!-- Exemplo de embed Spotify -->
+    <img src="https://i.imgur.com/CAI8QCL.jpeg" alt="Spotify" class="card-title">
     <iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M" allow="encrypted-media"></iframe>
+  </div>
+  <div class="card">
+    <img src="https://i.imgur.com/JuF8H5k.jpeg" alt="TikTok" class="card-title">
+    <iframe src="https://www.kwai.com/@ALEATORIO_MUSIC/video/5233332872389671511" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  </div>
+  <div class="card">
+    <img src="https://i.imgur.com/Ua3aeJs.jpeg" alt="Discord" class="card-title">
+    <iframe src="https://discord.com/widget?id=1436183173007544351&theme=dark" 
+            allowtransparency="true" frameborder="0" 
+            sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
+    </iframe>
+
+    <!-- Informações extras -->
+    <div class="discord-info">
+      <p><strong>Status:</strong> Online</p>
+      <p><strong>Nome do Servidor:</strong> MeuServidor</p>
+      <p><strong>Membros Online:</strong> 25</p>
+      <p><strong>Membros Restantes:</strong> 120</p>
+    </div>
   </div>
 </div>
 
-<!-- TikTok Online -->
-<div class="card tiktok-card">
-  <h3> Jose pequeno</h3>
-  <h3> Cidade Altar RJ</h3>
-  <iframe src="https://www.kwai.com/@ALEATORIO_MUSIC/video/5233332872389671511?userId=150000044110662&photoId=5233332872389671511&cc=COPY_LINK&timestamp=1780144006773&language=pt-br&share_device_id=ANDROID_03a3ed9d7a527d33&share_uid=150000180525327&share_id=ANDROID_03a3ed9d7a527d33_1780144005666&sharePage=photo&share_item_type=photo&share_item_info=5233332872389671511&fid=150000180525327&et=1_a%2F4877384635435233973_sr0&shareEnter=1&kpn=KWAI&authorKwaiId=ALEATORIO_MUSIC&translateKey=share_random109_082302&shareBucket=br&pwa_source=share&shareCountry=BRA&shareBiz=photo&short_key=gCoRAQ0H&PWA_share_N_string=20&request_source=1001&share_redirect_switch_choice=pwa"
-          width="770" height="400"
-          frameborder="500"
-          allow="autoplay; encrypted-media"
-          allowfullscreen>
-  </iframe>
-</div>
+ <style>
+  .dropdown {
+    display: none;
+    flex-direction: column;
+    margin-left: 15px;
+  }
 
+  .dropdown.show {
+    display: flex; /* quando ativo */
+  }
+</style>
 
+<script>
+  function toggleTheme() { 
+    document.body.classList.toggle('dark'); 
+  }
 
+  function logout() { 
+    alert("Você foi deslogado!"); 
+    window.location.href = "login.html"; 
+  }
 
-
-  <script>
-    function toggleTheme() { document.body.classList.toggle('dark'); }
-    function logout() { alert("Você foi deslogado!"); window.location.href = "login.html"; }
-    function mostrarLogs() {
-      const userRole = document.getElementById("userRole").textContent;
-      if (userRole.includes("Admin")) { document.getElementById("logsArea").style.display = "block"; }
-      else { alert("Acesso negado: apenas o proprietário pode ver os logs."); }
+  function mostrarLogs() {
+    const userRole = document.getElementById("userRole").textContent;
+    if (userRole.includes("Admin")) { 
+      alert("Exibindo logs..."); 
+      // Aqui você pode adicionar a lógica para mostrar os logs
+    } else { 
+      alert("Acesso negado: apenas o proprietário pode ver os logs."); 
     }
-    function toggleDropdown(id) {
-      const dropdown = document.getElementById(id);
-      dropdown.style.display = dropdown.style.display === "flex" ? "none" : "flex";
-    }
-    
-    // Função para bloquear o menu Gerenciamento e aplicar efeito de tremer
-    function bloquearGerenciamento() {
-      const dropdown = document.getElementById("gerenciamentoDropdown");
-      dropdown.classList.add("blocked");
-      setTimeout(() => {
-        dropdown.classList.remove("blocked");
-      }, 400); // remove o efeito após 0.4s
-    }
-  </script>
+  }
+
+  function toggleDropdown(id) {
+    const dropdown = document.getElementById(id);
+    dropdown.classList.toggle("show"); // alterna a classe show
+  }
+  
+  // Função para bloquear o menu Gerenciamento e aplicar efeito de tremer
+  function bloquearGerenciamento() {
+    const dropdown = document.getElementById("gerenciamentoDropdown");
+    dropdown.classList.add("blocked");
+    setTimeout(() => {
+      dropdown.classList.remove("blocked");
+    }, 400); // remove o efeito após 0.4s
+  }
+</script>
 </body>
 </html>
- 
